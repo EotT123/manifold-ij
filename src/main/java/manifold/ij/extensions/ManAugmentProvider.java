@@ -347,7 +347,7 @@ public class ManAugmentProvider extends PsiAugmentProvider
     // Consumer to add an extension method. The provided extensionClass is the origin source where the method is defined
     BiConsumer<AbstractSrcMethod<?>, PsiClass> addMethod = (method, extensionClass ) ->
     {
-      SrcMethod srcMethod = addExtensionMethod( scratchClass, method, psiClass );
+      SrcMethod srcMethod = createExtensionMethod( scratchClass, method, psiClass );
       if( srcMethod != null )
       {
         StringBuilder key = new StringBuilder();
@@ -562,7 +562,7 @@ public class ManAugmentProvider extends PsiAugmentProvider
     psiClass.putUserData( KEY_MAN_INTERFACE_EXTENSIONS, ifaceExtensions );
   }
 
-  private SrcMethod addExtensionMethod( SrcClass srcClass, AbstractSrcMethod<?> method, PsiClass extendedType )
+  private SrcMethod createExtensionMethod( SrcClass srcClass, AbstractSrcMethod<?> method, PsiClass extendedType )
   {
     if( !isExtensionMethod( method, extendedType.getQualifiedName() ) )
     {
