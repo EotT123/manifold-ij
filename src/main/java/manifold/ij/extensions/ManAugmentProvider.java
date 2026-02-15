@@ -450,6 +450,23 @@ public class ManAugmentProvider extends PsiAugmentProvider
 
   private record MethodDescription(String methodName, List<String> parameterFqns) { }
 
+  /**
+   * Returns all annotations of the specified {@code annotationType} declared on
+   * {@code extClass}, including those provided via a repeatable container annotation.
+   *
+   * <p>This method supports both:
+   * <ul>
+   *   <li>Direct annotations (e.g. {@code @MyAnnotation})</li>
+   *   <li>Repeatable container annotations (e.g. {@code @MyAnnotations})
+   *       whose {@code value()} contains multiple {@code @MyAnnotation} entries</li>
+   * </ul>
+   *
+   * @param extClass the class to inspect
+   * @param annotationType the annotation type to collect
+   * @param repeatableAnnotationType the container annotation type for repeatable usage
+   * @return a list containing all matching annotations, including those extracted
+   *         from the repeatable container
+   */
   private List<PsiAnnotation> getAnnotationsIncludingRepeatable(PsiClass extClass, Class annotationType, Class repeatableAnnotationType)
   {
     PsiModifierList modifierList = extClass.getModifierList();
