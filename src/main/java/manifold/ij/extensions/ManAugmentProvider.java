@@ -345,30 +345,31 @@ public class ManAugmentProvider extends PsiAugmentProvider
     }
 
     // Consumer to add an extension method. The provided extensionClass is the origin source where the method is defined
-    BiConsumer<AbstractSrcMethod<?>, PsiClass> addMethod = (method, extensionClass ) -> {
+    BiConsumer<AbstractSrcMethod<?>, PsiClass> addMethod = (method, extensionClass ) ->
+    {
       SrcMethod srcMethod = addExtensionMethod( scratchClass, method, psiClass );
-        if( srcMethod != null )
+      if( srcMethod != null )
+      {
+        StringBuilder key = new StringBuilder();
+        srcMethod.render( key, 0 );
+        PsiMethod existingMethod = augFeatures.get( key.toString() );
+        if( existingMethod != null )
         {
-          StringBuilder key = new StringBuilder();
-          srcMethod.render( key, 0 );
-          PsiMethod existingMethod = augFeatures.get( key.toString() );
-          if( existingMethod != null )
-          {
           // already added from another module root, the method has multiple module refs e.g., ManStringExt
-            ((ManLightMethodBuilder)existingMethod).withAdditionalModule( manModule );
-          }
-          else
+          ((ManLightMethodBuilder)existingMethod).withAdditionalModule( manModule );
+        }
+        else
+        {
+          PsiMethod extMethod = makePsiMethod( srcMethod, psiClass );
+          if( extMethod != null )
           {
-            PsiMethod extMethod = makePsiMethod( srcMethod, psiClass );
-            if( extMethod != null )
-            {
-              PsiMethod navMethod = findExtensionMethodNavigationElement(extensionClass, extMethod, extensionClass != extClass );
-              PsiMethod plantedMethod = plantMethodInPsiClass( manModule, extMethod, psiClass, navMethod );
-              augFeatures.put( key.toString(), plantedMethod );
-            }
+            PsiMethod navMethod = findExtensionMethodNavigationElement( extensionClass, extMethod, extensionClass != extClass );
+            PsiMethod plantedMethod = plantMethodInPsiClass( manModule, extMethod, psiClass, navMethod );
+            augFeatures.put( key.toString(), plantedMethod );
           }
         }
-      };
+      }
+    };
 
     // Add extension methods declared directly in the extension class.
     srcExtClass.getMethods().forEach(method -> addMethod.accept( method, extClass ) );
