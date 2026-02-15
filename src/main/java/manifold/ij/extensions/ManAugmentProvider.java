@@ -468,17 +468,6 @@ public class ManAugmentProvider extends PsiAugmentProvider
   }
 
   /**
-   * Resolves the PsiClass for a PsiClassTypes and ensures the returned value isn't null.
-   *
-   * @param psiClassType the psiClassType to resolve to a PsiClass
-   * @return the resolved {@link PsiClass}
-   */
-  private PsiClass resolvePsiClassNonNull(PsiClassType psiClassType )
-  {
-    return requireNonNull( psiClassType.resolve() );
-  }
-
-  /**
    * Returns the value of an annotation parameter that is declared as an array,
    * converted into a typed {@link List}.
    *
@@ -505,8 +494,8 @@ public class ManAugmentProvider extends PsiAugmentProvider
    */
   private PsiClass getParameterPsiClass(PsiAnnotation anno, String paramName )
   {
-    return resolvePsiClassNonNull( ( (PsiClassType) ( (PsiClassObjectAccessExpression) anno.findAttributeValue( paramName ) )
-      .getOperand().getType() ) );
+    return ( (PsiClassType) ( (PsiClassObjectAccessExpression) anno.findAttributeValue( paramName ) )
+      .getOperand().getType() ).resolve();
   }
 
   /**
@@ -518,7 +507,7 @@ public class ManAugmentProvider extends PsiAugmentProvider
    */
   private String getClassFqn(PsiClassObjectAccessExpression exp )
   {
-    return resolvePsiClassNonNull( (PsiClassType) exp.getOperand().getType() ).getQualifiedName();
+    return ( (PsiClassType) exp.getOperand().getType() ).resolve().getQualifiedName();
   }
 
   /**
