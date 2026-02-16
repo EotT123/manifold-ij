@@ -39,7 +39,7 @@ fun getIjVersion() : String {
 
 dependencies {
   intellijPlatform {
-    intellijIdeaCommunity(getIjVersion(), useInstaller = false)
+    intellijIdea(getIjVersion()){useInstaller = false}
     bundledPlugin("com.intellij.java")
   }
 

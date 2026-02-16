@@ -63,7 +63,7 @@ subprojects {
 
 dependencies {
   intellijPlatform {
-    intellijIdeaCommunity(getIjVersion(), useInstaller = false)
+    intellijIdea(getIjVersion()){useInstaller = false}
     pluginModule(implementation(project(":jps-plugin")))
     bundledPlugin("com.intellij.java")
     bundledPlugin("com.intellij.modules.json")
@@ -121,8 +121,8 @@ intellijPlatform {
 
     ideaVersion {
       // Get build numbers from https://www.jetbrains.com/idea/download/other.html
-      sinceBuild = "253"   //2025.3
-      untilBuild = "253.*" //2025.3.*
+      sinceBuild = "261"   //2025.3
+      untilBuild = "261.*" //2025.3.*
     }
   }
 }
