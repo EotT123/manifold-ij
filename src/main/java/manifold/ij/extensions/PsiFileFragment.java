@@ -22,7 +22,6 @@ package manifold.ij.extensions;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.platform.syntax.psi.PsiSyntaxBuilderFactory;
 import com.intellij.platform.syntax.psi.PsiSyntaxBuilderFactoryHook;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaFile;
